@@ -1,4 +1,4 @@
-﻿namespace Innofactor.SuomiFiIdentificationClient {
+﻿namespace Innofactor.SuomiFiIdentificationClient.Saml {
 
   public static class AttributeNames {
 

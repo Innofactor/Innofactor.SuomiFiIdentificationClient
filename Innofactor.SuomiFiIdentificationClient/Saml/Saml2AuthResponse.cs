@@ -12,7 +12,7 @@ using Kentor.AuthServices.Configuration;
 using Kentor.AuthServices.Saml2P;
 using Microsoft.Extensions.Logging;
 
-namespace Innofactor.SuomiFiIdentificationClient {
+namespace Innofactor.SuomiFiIdentificationClient.Saml {
 
   [Serializable]
   public class Saml2AuthResponse {
