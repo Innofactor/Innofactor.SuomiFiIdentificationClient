@@ -4,6 +4,7 @@ using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml;
 using Innofactor.SuomiFiIdentificationClient.Support;
@@ -45,8 +46,11 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
       }
     }
 
-    public static Saml2AuthResponse Create(string samlResponse, string idpCertFile, Saml2Id responseToId,
-      SamlConfig config,
+    public static Saml2AuthResponse Create(string samlResponse, 
+      Saml2Id responseToId,
+      EntityId issuer,
+      X509Certificate2 idpCert,
+      X509Certificate2 serviceCertificate,
       bool validateConditions = true) {
 
       if (CryptoConfig.CreateFromName(RsaSha256Namespace) == null)
@@ -64,11 +68,9 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
         return new Saml2AuthResponse(false) { Status = response.Status };
       }
 
-      var issuer = new EntityId(config.Saml2IdpEntityId);
-      var idpCert = new RsaShaCrypto(config).LoadCert(idpCertFile);
       var spOptions = new SPOptions();
       spOptions.SystemIdentityModelIdentityConfiguration.AudienceRestriction = new AudienceRestriction(AudienceUriMode.Never);
-      spOptions.ServiceCertificates.Add(new RsaShaCrypto(config).LoadCert());
+      spOptions.ServiceCertificates.Add(serviceCertificate);
       if (!validateConditions) {
         spOptions.Saml2PSecurityTokenHandler.Configuration.MaxClockSkew = TimeSpan.MaxValue;
         spOptions.Saml2PSecurityTokenHandler.Configuration.Caches.TokenReplayCache = new DummyTokenReplayCache();

@@ -88,6 +88,7 @@
     <Compile Include="Support\AuthStateAccessor.cs" />
     <Compile Include="Support\EncryptedCookieAccessor.cs" />
     <Compile Include="Support\EncryptedCookieStorage.cs" />
+    <Compile Include="Support\ICertificateStore.cs" />
     <Compile Include="Support\IdentityExtensions.cs" />
     <Compile Include="Support\RsaShaCrypto.cs" />
   </ItemGroup>

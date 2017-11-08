@@ -9,7 +9,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Support {
   /// <summary>
   /// Sign data with RSA+SHA256.
   /// </summary>
-  public class RsaShaCrypto {
+  public class RsaShaCrypto : ICertificateStore {
 
     private readonly SamlConfig config;
 
@@ -38,7 +38,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Support {
 
     }
 
-    public X509Certificate2 LoadCert(string certPath) {
+    public X509Certificate2 LoadCertificate(string certPath) {
 
       var cert = LoadFromStore(certPath);
 
@@ -49,9 +49,9 @@ namespace Innofactor.SuomiFiIdentificationClient.Support {
 
     }
 
-    public X509Certificate2 LoadCert() {
+    public X509Certificate2 LoadCertificate() {
       var certPath = config.Saml2Certificate;
-      return LoadCert(certPath);
+      return LoadCertificate(certPath);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Support {
     /// <returns>Signature, hashed with SHA256 and encrypted with our private RSA key</returns>
     public byte[] SignData(byte[] bytes) {
 
-      var cert = LoadCert();
+      var cert = LoadCertificate();
       var sha256 = CryptoConfig.CreateFromName("SHA256");
 
       var rsa = (RSACryptoServiceProvider)cert.PrivateKey;

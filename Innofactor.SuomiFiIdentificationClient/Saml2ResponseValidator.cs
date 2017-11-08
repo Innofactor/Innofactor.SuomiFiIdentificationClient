@@ -1,4 +1,5 @@
-﻿using Innofactor.SuomiFiIdentificationClient.Saml;
+﻿using System.IdentityModel.Metadata;
+using Innofactor.SuomiFiIdentificationClient.Saml;
 using Innofactor.SuomiFiIdentificationClient.Support;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -19,12 +20,14 @@ namespace Innofactor.SuomiFiIdentificationClient {
 
     private readonly AuthStateAccessor authStateAccessor;
     private readonly SamlConfig config;
+    private readonly ICertificateStore certificateStore;
     private readonly ILogger<Saml2ResponseValidator> log;
 
-    public Saml2ResponseValidator(AuthStateAccessor authStateAccessor, IOptions<SamlConfig> config, ILogger<Saml2ResponseValidator> log) {
+    public Saml2ResponseValidator(AuthStateAccessor authStateAccessor, IOptions<SamlConfig> config, ILogger<Saml2ResponseValidator> log, ICertificateStore certificateStore) {
       this.authStateAccessor = authStateAccessor;
       this.config = config.Value;
       this.log = log;
+      this.certificateStore = certificateStore;
     }
 
     public bool IsValid(string samlResponse, bool validateConditions) {
@@ -40,7 +43,9 @@ namespace Innofactor.SuomiFiIdentificationClient {
         return new Saml2AuthResponse(false);
       }
 
-      var saml2Response = Saml2AuthResponse.Create(samlResponse, config.Saml2IdpCertificate, authId, config, validateConditions);
+      var idpCertificate = certificateStore.LoadCertificate(config.Saml2IdpCertificate);
+      var serviceCertificate = certificateStore.LoadCertificate(config.Saml2Certificate);
+      var saml2Response = Saml2AuthResponse.Create(samlResponse, authId, new EntityId(config.Saml2EntityId), idpCertificate, serviceCertificate, validateConditions);
 
       return saml2Response;
 
