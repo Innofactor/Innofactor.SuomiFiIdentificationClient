@@ -19,6 +19,7 @@ namespace Innofactor.SuomiFiIdentificationClient {
     /// <param name="returnUrl">Return URL after identification request, for example https://localhost:39390/SAML/ACSPOST </param>
     /// <param name="language">Language code, for example "fi". Optional, defaults to "fi".</param>
     /// <param name="relayState">Relay state. Optional.</param>
+    /// <returns>Redirect URL</returns>
     public string Authenticate(string returnUrl, string language, IRelayState relayState) {
 
       var authRequest = new Saml2AuthRequest();
@@ -33,6 +34,10 @@ namespace Innofactor.SuomiFiIdentificationClient {
 
     }
 
+    /// <summary>
+    /// Starts Suomi.fi logout request.
+    /// </summary>
+    /// <returns>Redirect URL</returns>
     public string Logout() {
 
       var logoutRequest = new Saml2LogoutRequest();
