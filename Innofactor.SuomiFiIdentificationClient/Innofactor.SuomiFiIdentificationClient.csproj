@@ -77,9 +77,14 @@
     <Compile Include="AttributeNames.cs" />
     <Compile Include="Exceptions\ConfigurationErrorsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelayState.cs" />
     <Compile Include="Saml2AuthResponse.cs" />
     <Compile Include="Saml2ResponseValidator.cs" />
     <Compile Include="SamlConfig.cs" />
+    <Compile Include="Saml\Saml2AuthRequest.cs" />
+    <Compile Include="Saml\Saml2HttpRedirect.cs" />
+    <Compile Include="Saml\Saml2LogoutRequest.cs" />
+    <Compile Include="SuomiFiIdentificationClient.cs" />
     <Compile Include="Support\AuthStateAccessor.cs" />
     <Compile Include="Support\EncryptedCookieAccessor.cs" />
     <Compile Include="Support\EncryptedCookieStorage.cs" />
