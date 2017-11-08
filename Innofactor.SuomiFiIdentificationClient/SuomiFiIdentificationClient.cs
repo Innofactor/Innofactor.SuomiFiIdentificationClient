@@ -3,7 +3,7 @@ using Innofactor.SuomiFiIdentificationClient.Support;
 
 namespace Innofactor.SuomiFiIdentificationClient {
 
-  public class SuomiFiIdentificationClient<TAction> {
+  public class SuomiFiIdentificationClient {
 
     private readonly AuthStateAccessor authStateAccessor;
     private readonly SamlConfig config;
@@ -13,14 +13,19 @@ namespace Innofactor.SuomiFiIdentificationClient {
       this.authStateAccessor = authStateAccessor;
     }
 
-    public string Authenticate(TAction samlAction, string entityId, string returnUrl, string language) {
+    /// <summary>
+    /// Starts Suomi.fi identification request.
+    /// </summary>
+    /// <param name="returnUrl">Return URL after identification request, for example https://localhost:39390/SAML/ACSPOST </param>
+    /// <param name="language">Language code, for example "fi". Optional, defaults to "fi".</param>
+    /// <param name="relayState">Relay state. Optional.</param>
+    public string Authenticate(string returnUrl, string language, IRelayState relayState) {
 
       var authRequest = new Saml2AuthRequest();
       var authRequestXml = authRequest.ToXml(config.Saml2EntityId, config.Saml2SSOUrl, returnUrl, language);
       authStateAccessor.Id = authRequest.Id;
 
-      // RelayState contains action + entity ID (if any)
-      var binding = new Saml2HttpRedirect(new RelayState<TAction>(samlAction, entityId, language).ToString(), config);
+      var binding = new Saml2HttpRedirect(relayState?.ToString(), config);
       binding.Run(authRequestXml);
 
       var redirectUrl = config.Saml2SSOUrl + "?" + binding.RedirectUrl;

@@ -1,10 +1,17 @@
-﻿using Innofactor.SuomiFiIdentificationClient.Support;
+﻿using Innofactor.SuomiFiIdentificationClient.Saml;
+using Innofactor.SuomiFiIdentificationClient.Support;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Innofactor.SuomiFiIdentificationClient {
 
   public interface ISaml2ResponseValidator {
+    /// <summary>
+    /// Validates SAML response.
+    /// </summary>
+    /// <param name="samlResponse">SAML response string.</param>
+    /// <param name="validateConditions">Whether to validate timestamp and ID. This should always be true in production, but can be set to false for testing.</param>
+    /// <returns>Authentication response. Cannot be null.</returns>
     Saml2AuthResponse Validate(string samlResponse, bool validateConditions);
   }
 

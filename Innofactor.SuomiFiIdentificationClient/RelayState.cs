@@ -3,27 +3,36 @@ using System.Linq;
 
 namespace Innofactor.SuomiFiIdentificationClient {
 
-  public class RelayState<T> {
+  public interface IRelayState {
+    
+  }
 
-    public static RelayState<T> Parse(string relayState) {
+  public class RelayState<TAction> : IRelayState {
+
+    public static RelayState<TAction> Parse(string relayState) {
 
       var parts = relayState.Split(',');
 
       if (parts.Length < 1)
         return null;
 
-      return new RelayState<T>((T)Enum.Parse(typeof(T), parts[0]), parts.ElementAtOrDefault(1), parts.ElementAtOrDefault(2));
+      return new RelayState<TAction>((TAction)Enum.Parse(typeof(TAction), parts[0]), parts.ElementAtOrDefault(1), parts.ElementAtOrDefault(2));
 
     }
 
-    public RelayState(T action, string entityId, string language) {
+    public RelayState(TAction action, string entityId, string language) {
       Action = action;
       EntityId = entityId;
       Language = language;
     }
 
-    public T Action { get; }
+    public TAction Action { get; }
+
     public string EntityId { get; }
+
+    /// <summary>
+    /// Selected UI language code
+    /// </summary>
     public string Language { get; }
 
     public override string ToString() {
