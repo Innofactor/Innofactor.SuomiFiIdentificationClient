@@ -78,6 +78,7 @@
     <Compile Include="Exceptions\ConfigurationErrorsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Saml2AuthResponse.cs" />
+    <Compile Include="Saml2ResponseValidator.cs" />
     <Compile Include="SamlConfig.cs" />
     <Compile Include="Support\AuthStateAccessor.cs" />
     <Compile Include="Support\EncryptedCookieAccessor.cs" />
