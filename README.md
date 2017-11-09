@@ -11,7 +11,7 @@ The client was created for a specific use case and is provided "as is". Pull req
 
 ## Usage example
 
-First make sure SamlConfig is configured, for example in appconfig.json (replace ENTITYID and CERTIFICATE_NAME as necessary):
+First make sure SamlConfig is configured, for example in appsettings.json (replace ENTITYID and CERTIFICATE_NAME as necessary):
 
 ```json
   "Saml": {
