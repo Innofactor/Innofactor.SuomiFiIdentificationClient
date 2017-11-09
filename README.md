@@ -13,7 +13,7 @@ The client was created for a specific use case and is provided "as is". Pull req
 
 First make sure SamlConfig is configured, for example in appconfig.json (replace ENTITYID and CERTIFICATE_NAME as necessary):
 
-```
+```json
   "Saml": {
     "Saml2EntityId": "ENTITYID",
     "Saml2SSOUrl": "https://testi.apro.tunnistus.fi/idp/profile/SAML2/Redirect/SSO",
@@ -32,17 +32,27 @@ replacing RsaShaCrypto with your own implementation of the ICertificateStore int
 
 In Startup.cs:
 
-```
+```csharp
+
+    public void ConfigureServices(IServiceCollection services) {
+
+      // ...
+
+      services.Configure<SamlConfig>(Configuration.GetSection("Saml"));
+
       services.AddScoped<AuthStateAccessor>();
       services.AddScoped<IEncryptedCookieStorage, EncryptedCookieStorage>();
       services.AddScoped<ICertificateStore, RsaShaCrypto>();
       services.AddScoped<ISaml2ResponseValidator, Saml2ResponseValidator>();
       services.AddScoped<SuomiFiIdentificationClient>();
       services.AddScoped<IActionContextAccessor, ActionContextAccessor>();
+
+    }
+
 ```
 
 In your controller (for example SuomiFiIdentificationController):
-```
+```csharp
 
     [AllowAnonymous]
     [HttpGet("authenticate")]
