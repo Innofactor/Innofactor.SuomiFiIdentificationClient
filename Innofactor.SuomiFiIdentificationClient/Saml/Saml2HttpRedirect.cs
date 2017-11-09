@@ -12,11 +12,11 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
   /// </summary>
   public class Saml2HttpRedirect {
 
-    private readonly SamlConfig config;
+    private readonly RsaShaCrypto crypto;
 
-    public Saml2HttpRedirect(string relayState, SamlConfig config) {
+    public Saml2HttpRedirect(string relayState, RsaShaCrypto crypto) {
       RelayState = relayState;
-      this.config = config;
+      this.crypto = crypto;
     }
 
     public string RedirectUrl { get; private set; }
@@ -36,7 +36,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
     }
 
     private byte[] GetSignature(byte[] contentBytes) {
-      return new RsaShaCrypto(config).SignData(contentBytes);
+      return crypto.SignData(contentBytes);
     }
 
     private string Serialize(string payload) {

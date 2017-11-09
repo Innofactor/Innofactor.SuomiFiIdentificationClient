@@ -1,57 +1,24 @@
-﻿using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using Innofactor.SuomiFiIdentificationClient.Exceptions;
-using Microsoft.Extensions.Logging;
 
 namespace Innofactor.SuomiFiIdentificationClient.Support {
 
   /// <summary>
   /// Sign data with RSA+SHA256.
   /// </summary>
-  public class RsaShaCrypto : ICertificateStore {
+  public class RsaShaCrypto {
 
+    private readonly ICertificateStore certificateStore;
     private readonly SamlConfig config;
 
-    public RsaShaCrypto(SamlConfig config) {
+    public RsaShaCrypto(SamlConfig config, ICertificateStore certificateStore) {
       this.config = config;
+      this.certificateStore = certificateStore;
     }
 
-    private static readonly ILogger<RsaShaCrypto> log = new LoggerFactory().CreateLogger<RsaShaCrypto>();
-
-    private X509Certificate2 LoadFromStore(string certName) {
-
-      if (string.IsNullOrEmpty(certName))
-        return null;
-
-      var storeLocation = config.Saml2CertificateStoreLocation;
-      var store = new X509Store(StoreName.My, storeLocation);
-      store.Open(OpenFlags.ReadOnly);
-
-      var cert = store.Certificates.Cast<X509Certificate2>().FirstOrDefault(c => c.FriendlyName == certName);
-
-      if (cert != null) {
-        log.LogDebug("Loaded certificate from store with name {0}", certName);
-      }
-
-      return cert;
-
-    }
-
-    public X509Certificate2 LoadCertificate(string certPath) {
-
-      var cert = LoadFromStore(certPath);
-
-      if (cert != null)
-        return cert;
-
-      throw new ConfigurationErrorsException("SAML2 certificate not found");
-
-    }
-
-    public X509Certificate2 LoadCertificate() {
+    private X509Certificate2 LoadCertificate() {
       var certPath = config.Saml2Certificate;
-      return LoadCertificate(certPath);
+      return certificateStore.LoadCertificate(certPath);
     }
 
     /// <summary>

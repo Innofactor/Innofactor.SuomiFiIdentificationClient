@@ -7,10 +7,12 @@ namespace Innofactor.SuomiFiIdentificationClient {
 
     private readonly AuthStateAccessor authStateAccessor;
     private readonly SamlConfig config;
+    private readonly RsaShaCrypto crypto;
 
-    public SuomiFiIdentificationClient(SamlConfig config, AuthStateAccessor authStateAccessor) {
+    public SuomiFiIdentificationClient(SamlConfig config, AuthStateAccessor authStateAccessor, RsaShaCrypto crypto) {
       this.config = config;
       this.authStateAccessor = authStateAccessor;
+      this.crypto = crypto;
     }
 
     /// <summary>
@@ -26,7 +28,7 @@ namespace Innofactor.SuomiFiIdentificationClient {
       var authRequestXml = authRequest.ToXml(config.Saml2EntityId, config.Saml2SSOUrl, returnUrl, language);
       authStateAccessor.Id = authRequest.Id;
 
-      var binding = new Saml2HttpRedirect(relayState?.ToString(), config);
+      var binding = new Saml2HttpRedirect(relayState?.ToString(), crypto);
       binding.Run(authRequestXml);
 
       var redirectUrl = config.Saml2SSOUrl + "?" + binding.RedirectUrl;
@@ -44,7 +46,7 @@ namespace Innofactor.SuomiFiIdentificationClient {
       var logoutRequestXml = logoutRequest.ToXml(config.Saml2EntityId, config.Saml2SLOUrl);
       authStateAccessor.Id = logoutRequest.Id;
 
-      var binding = new Saml2HttpRedirect(string.Empty, config);
+      var binding = new Saml2HttpRedirect(string.Empty, crypto);
       binding.Run(logoutRequestXml);
 
       var redirectUrl = config.Saml2SLOUrl + "?" + binding.RedirectUrl;
