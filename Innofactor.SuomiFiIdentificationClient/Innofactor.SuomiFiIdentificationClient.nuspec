@@ -19,6 +19,7 @@
     <copyright>Copyright Innofactor</copyright>
 
     <authors>Innofactor</authors>
+    <iconUrl>http://rappen.net/Cinteros/innofactor.png</iconUrl>
 	
 	<dependencies>
 		<dependency id="Kentor.AuthServices" version="0.21.2" />
