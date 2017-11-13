@@ -1,5 +1,7 @@
 ﻿# [Suomi.fi e-identification](https://esuomi.fi/suomi-fi-services/suomi-fi-e-identification/?lang=en) client for .NET
 
+![status badge](https://innofactor-agile.visualstudio.com/_apis/public/build/definitions/8f49bcda-8276-4721-8f2e-aa1f54924edf/16/badge)
+
 Depends on Kentor.AuthServices.
 
 **Note:**
