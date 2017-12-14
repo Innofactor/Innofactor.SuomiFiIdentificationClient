@@ -48,21 +48,6 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
         new XElement(Saml2Namespaces.Saml2P + "NameIDPolicy",
           new XAttribute("AllowCreate", "true"),
           new XAttribute("Format", "urn:oasis:names:tc:SAML:2.0:nameid-format:transient")
-        ),
-        new XElement(Saml2Namespaces.Saml2P + "RequestedAuthnContext",
-          new XAttribute("Comparison", "exact"),
-          new XElement(Saml2Namespaces.Saml2 + "AuthnContextClassRef",
-            new XAttribute(XNamespace.Xmlns + "saml", Saml2Namespaces.Saml2),
-            "urn:oid:1.2.246.517.3002.110.2"
-          ),
-          new XElement(Saml2Namespaces.Saml2 + "AuthnContextClassRef",
-            new XAttribute(XNamespace.Xmlns + "saml", Saml2Namespaces.Saml2),
-            "urn:oid:1.2.246.517.3002.110.1"
-          ),
-          new XElement(Saml2Namespaces.Saml2 + "AuthnContextClassRef",
-            new XAttribute(XNamespace.Xmlns + "saml", Saml2Namespaces.Saml2),
-            "urn:oid:1.2.246.517.3002.110.3"
-          )
         )
       );
 
