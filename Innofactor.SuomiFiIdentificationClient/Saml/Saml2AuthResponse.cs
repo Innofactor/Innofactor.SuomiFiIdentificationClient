@@ -13,10 +13,12 @@ using Kentor.AuthServices.Configuration;
 using Kentor.AuthServices.Saml2P;
 using Microsoft.Extensions.Logging;
 
-namespace Innofactor.SuomiFiIdentificationClient.Saml {
+namespace Innofactor.SuomiFiIdentificationClient.Saml
+{
 
   [Serializable]
-  public class Saml2AuthResponse {
+  public class Saml2AuthResponse
+  {
 
     private static readonly ILogger<Saml2AuthResponse> log = new LoggerFactory().CreateLogger<Saml2AuthResponse>();
     private static readonly string RsaSha256Namespace = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
@@ -28,7 +30,8 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
     }
 
     // For testing only, when the tokens need to be re-used.
-    class DummyTokenReplayCache : TokenReplayCache {
+    class DummyTokenReplayCache : TokenReplayCache
+    {
       public override void AddOrUpdate(string key, SecurityToken securityToken, DateTime expirationTime) {
 
       }
@@ -46,7 +49,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
       }
     }
 
-    public static Saml2AuthResponse Create(string samlResponse, 
+    public static Saml2AuthResponse Create(string samlResponse,
       Saml2Id responseToId,
       EntityId issuer,
       X509Certificate2 idpCert,
@@ -90,8 +93,10 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
       var firstName = identity.FindFirstValue(AttributeNames.GivenName);
       var lastName = identity.FindFirstValue(AttributeNames.Sn);
       var ssn = identity.FindFirstValue(AttributeNames.NationalIdentificationNumber);
+      var nameId = identity.FindFirstValue(AttributeNames.NameIdentifier);
+      var sessionId = identity.FindFirstValue(AttributeNames.SessionIndex);
 
-      return new Saml2AuthResponse(true) { FirstName = firstName, LastName = lastName, SSN = ssn, RelayState = response.RelayState };
+      return new Saml2AuthResponse(true) { FirstName = firstName, LastName = lastName, SSN = ssn, RelayState = response.RelayState, NameIdentifier = nameId, SessionIndex = sessionId };
 
     }
 
@@ -108,7 +113,14 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
     public string RelayState { get; set; }
 
     public string SSN { get; set; }
-
+    /// <summary>
+    /// Name / Session identifier used for Suomi.Fi logout request
+    /// </summary>
+    public string NameIdentifier { get; set; }
+    /// <summary>
+    /// Session identifier for Suomi.Fi logout request
+    /// </summary>
+    public string SessionIndex { get; set; }
     public Saml2StatusCode Status { get; set; }
 
     public bool Success { get; set; }

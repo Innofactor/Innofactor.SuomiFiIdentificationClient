@@ -56,7 +56,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Test {
     [TestMethod]
     public void Logout() {
 
-      var result = client.Logout();
+      var result = client.Logout("", "");
 
       Assert.IsNotNull(result, "result");
       Assert.IsTrue(result.StartsWith("https://testi.apro.tunnistus.fi/idp/profile/SAML2/Redirect/SLO?SAMLRequest"), "Start of request URL");

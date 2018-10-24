@@ -40,10 +40,10 @@ namespace Innofactor.SuomiFiIdentificationClient {
     /// Starts Suomi.fi logout request.
     /// </summary>
     /// <returns>Redirect URL</returns>
-    public string Logout() {
+    public string Logout(string sessionId, string sessionIndex) {
 
       var logoutRequest = new Saml2LogoutRequest();
-      var logoutRequestXml = logoutRequest.ToXml(config.Saml2EntityId, config.Saml2SLOUrl);
+      var logoutRequestXml = logoutRequest.ToXml(config.Saml2EntityId, config.Saml2IdpEntityId, config.Saml2SLOUrl, sessionId, sessionIndex);
       authStateAccessor.Id = logoutRequest.Id;
 
       var binding = new Saml2HttpRedirect(string.Empty, crypto);

@@ -8,6 +8,10 @@
 
     public const string Sn = "urn:oid:2.5.4.4";
 
+    public const string NameIdentifier = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+  
+    public const string SessionIndex = "http://kentor.se/AuthServices/SessionIndex";
+
   }
 
 }
