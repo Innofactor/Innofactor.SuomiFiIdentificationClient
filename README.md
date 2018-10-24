@@ -79,15 +79,18 @@ In your controller (for example SuomiFiIdentificationController):
 
       var parsedState = RelayState.Parse(relayState);
 
-      // Log in user
+      // Log in user, store session claims etc.
 
     }
 
     [HttpGet("logout")]
     public async Task<ActionResult> Logout() {
+      // Fetch stored session claims to end session properly
+      var sessionNameIdentifier = "";
+      var sessionIndex = "";
 
       await HttpContext.SignOutAsync();
-      var redirectUrl = client.Logout();
+      var redirectUrl = client.Logout(sessionNameIdentifier, sessionIndex);
 
       return new RedirectResult(redirectUrl);
 
