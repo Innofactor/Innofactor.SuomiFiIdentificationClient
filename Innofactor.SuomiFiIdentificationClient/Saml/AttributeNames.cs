@@ -8,6 +8,10 @@
 
     public const string Sn = "urn:oid:2.5.4.4";
 
+    public const string LogoutNameIdentifier = "http://kentor.se/AuthServices/LogoutNameIdentifier";
+  
+    public const string SessionIndex = "http://kentor.se/AuthServices/SessionIndex";
+
   }
 
 }
