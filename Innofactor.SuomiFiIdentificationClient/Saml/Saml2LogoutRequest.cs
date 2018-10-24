@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.IdentityModel.Tokens;
 using System.Xml.Linq;
 using Kentor.AuthServices;
@@ -13,7 +14,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
 
     public Saml2Id Id { get; }
 
-    public XElement ToXml(string entityId, string destination) {
+    public XElement ToXml(string entityId, string idpEntityId, string destination, string sessionId, string sessionIndex) {
 
       var issueInstant = DateTime.UtcNow.ToSaml2DateTimeString();
 
@@ -24,7 +25,14 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
         new XAttribute("IssueInstant", issueInstant),
         new XAttribute("Version", "2.0"),
         new XElement(Saml2Namespaces.Saml2 + "Issuer",
-          new XAttribute(XNamespace.Xmlns + "saml2", Saml2Namespaces.Saml2), entityId)
+          new XAttribute(XNamespace.Xmlns + "saml2", Saml2Namespaces.Saml2), entityId),
+        new XElement(Saml2Namespaces.Saml2 + "NameID",
+          new XAttribute(XNamespace.Xmlns + "saml2", Saml2Namespaces.Saml2),
+          new XAttribute("Format", "urn:oasis:names:tc:SAML:2.0:nameid-format:transient"),
+          new XAttribute("NameQualifier", idpEntityId),
+          new XAttribute("SPNameQualifier", entityId),
+            sessionId),
+        new XElement(Saml2Namespaces.Saml2P + "SessionIndex", sessionIndex)
       );
 
       return x;

@@ -93,10 +93,10 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml
       var firstName = identity.FindFirstValue(AttributeNames.GivenName);
       var lastName = identity.FindFirstValue(AttributeNames.Sn);
       var ssn = identity.FindFirstValue(AttributeNames.NationalIdentificationNumber);
-      var nameId = identity.FindFirstValue(AttributeNames.LogoutNameIdentifier);
+      var nameId = identity.FindFirstValue(AttributeNames.NameIdentifier);
       var sessionId = identity.FindFirstValue(AttributeNames.SessionIndex);
 
-      return new Saml2AuthResponse(true) { FirstName = firstName, LastName = lastName, SSN = ssn, RelayState = response.RelayState, LogoutNameIdentifier = nameId, SessionIndex = sessionId };
+      return new Saml2AuthResponse(true) { FirstName = firstName, LastName = lastName, SSN = ssn, RelayState = response.RelayState, NameIdentifier = nameId, SessionIndex = sessionId };
 
     }
 
@@ -114,9 +114,9 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml
 
     public string SSN { get; set; }
     /// <summary>
-    /// Name identifier values used for Suomi.Fi logout request
+    /// Name / Session identifier used for Suomi.Fi logout request
     /// </summary>
-    public string LogoutNameIdentifier { get; set; }
+    public string NameIdentifier { get; set; }
     /// <summary>
     /// Session identifier for Suomi.Fi logout request
     /// </summary>
