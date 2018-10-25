@@ -11,7 +11,7 @@ The client was created for a specific use case and is provided "as is". Pull req
 * Only ASP.NET Core 2.0 is supported.
 * Because of System.IdentityModel, full .NET Framework is required.
 
-## Usage example
+## Usage example 
 
 First make sure SamlConfig is configured, for example in appsettings.json (replace ENTITYID and CERTIFICATE_NAME as necessary):
 
