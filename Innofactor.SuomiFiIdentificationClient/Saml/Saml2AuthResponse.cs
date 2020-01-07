@@ -1,17 +1,16 @@
 ﻿using System;
-using System.IdentityModel.Metadata;
-using System.IdentityModel.Selectors;
-using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml;
 using Innofactor.SuomiFiIdentificationClient.Support;
-using Kentor.AuthServices;
-using Kentor.AuthServices.Configuration;
-using Kentor.AuthServices.Saml2P;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens.Saml2;
+using Sustainsys.Saml2;
+using Sustainsys.Saml2.Configuration;
+using Sustainsys.Saml2.Metadata;
+using Sustainsys.Saml2.Saml2P;
 
 namespace Innofactor.SuomiFiIdentificationClient.Saml
 {
@@ -29,35 +28,11 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml
       return decoded;
     }
 
-    // For testing only, when the tokens need to be re-used.
-    class DummyTokenReplayCache : TokenReplayCache
-    {
-      public override void AddOrUpdate(string key, SecurityToken securityToken, DateTime expirationTime) {
-
-      }
-
-      public override bool Contains(string key) {
-        return false;
-      }
-
-      public override SecurityToken Get(string key) {
-        return null;
-      }
-
-      public override void Remove(string key) {
-
-      }
-    }
-
     public static Saml2AuthResponse Create(string samlResponse,
       Saml2Id responseToId,
       EntityId issuer,
       X509Certificate2 idpCert,
-      X509Certificate2 serviceCertificate,
-      bool validateConditions = true) {
-
-      if (CryptoConfig.CreateFromName(RsaSha256Namespace) == null)
-        Options.GlobalEnableSha256XmlSignatures();
+      X509Certificate2 serviceCertificate) {
 
       var decoded = DecodeBase64(samlResponse);
       var xmlDoc = new XmlDocument();
@@ -72,12 +47,9 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml
       }
 
       var spOptions = new SPOptions();
-      spOptions.SystemIdentityModelIdentityConfiguration.AudienceRestriction = new AudienceRestriction(AudienceUriMode.Never);
       spOptions.ServiceCertificates.Add(serviceCertificate);
-      if (!validateConditions) {
-        spOptions.Saml2PSecurityTokenHandler.Configuration.MaxClockSkew = TimeSpan.MaxValue;
-        spOptions.Saml2PSecurityTokenHandler.Configuration.Caches.TokenReplayCache = new DummyTokenReplayCache();
-      }
+      if (CryptoConfig.CreateFromName(RsaSha256Namespace) == null)
+        spOptions.OutboundSigningAlgorithm = "SHA256";
       var options = new Options(spOptions);
       var idp = new IdentityProvider(issuer, spOptions);
       idp.SigningKeys.AddConfiguredKey(idpCert);

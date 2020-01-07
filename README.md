@@ -2,14 +2,12 @@
 
 ![status badge](https://innofactor-agile.visualstudio.com/_apis/public/build/definitions/8f49bcda-8276-4721-8f2e-aa1f54924edf/16/badge)
 
-Depends on Kentor.AuthServices.
+Depends on Sustainsys.Saml2.AspNetCore2.
 
 **Note:**
 The client was created for a specific use case and is provided "as is". Pull requests and suggestions for generalizing the usage are welcome.
 
 * Only HTTP Redirect binding is supported. 
-* Only ASP.NET Core 2.0 is supported.
-* Because of System.IdentityModel, full .NET Framework is required.
 
 ## Usage example 
 

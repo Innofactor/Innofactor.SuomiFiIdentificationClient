@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Data;
-using System.IdentityModel.Tokens;
 using System.Xml.Linq;
-using Kentor.AuthServices;
+using Microsoft.IdentityModel.Tokens.Saml2;
+using Sustainsys.Saml2;
 
 namespace Innofactor.SuomiFiIdentificationClient.Saml {
 

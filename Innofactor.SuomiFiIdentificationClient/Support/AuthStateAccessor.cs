@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens.Saml2;
 
 namespace Innofactor.SuomiFiIdentificationClient.Support {
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Security.Cryptography.X509Certificates;
 using Innofactor.SuomiFiIdentificationClient.Exceptions;
 using Innofactor.SuomiFiIdentificationClient.Support;
 using Innofactor.SuomiFiIdentificationClient.Test.TestSupport;
@@ -27,7 +26,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Test {
         Saml2IdpCertificate = "apro-test.cer",
         Saml2CertificateStoreLocation = StoreLocation.CurrentUser
       };
-      var store = new EmbeddedCertificateStore();
+      var store = new CertificateGeneratorStore();
       client = new SuomiFiIdentificationClient(samlConfig, new AuthStateAccessor(cookieStorage), new RsaShaCrypto(samlConfig, store));
     }
 

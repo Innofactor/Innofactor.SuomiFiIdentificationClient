@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innofactor.SuomiFiIdentificationClient", "Innofactor.SuomiFiIdentificationClient\Innofactor.SuomiFiIdentificationClient.csproj", "{42452859-E035-451E-A879-DAA7F1A4A873}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D077790A-7DC8-428C-B6AC-53514E15157B}"
 	ProjectSection(SolutionItems) = preProject
 		Innofactor.SuomiFiIdentificationClient\Innofactor.SuomiFiIdentificationClient.nuspec = Innofactor.SuomiFiIdentificationClient\Innofactor.SuomiFiIdentificationClient.nuspec
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innofactor.SuomiFiIdentificationClient.Test", "Innofactor.SuomiFiIdentificationClient.Test\Innofactor.SuomiFiIdentificationClient.Test.csproj", "{29390694-5A3F-4B77-94E1-34D8B09ABAFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innofactor.SuomiFiIdentificationClient", "Innofactor.SuomiFiIdentificationClient\Innofactor.SuomiFiIdentificationClient.csproj", "{F62FFF5B-2B91-460A-A4FC-4C8E368299C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innofactor.SuomiFiIdentificationClient.Test", "Innofactor.SuomiFiIdentificationClient.Test\Innofactor.SuomiFiIdentificationClient.Test.csproj", "{1ADF5081-B3F9-48DF-B5EF-3342995E7508}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{42452859-E035-451E-A879-DAA7F1A4A873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42452859-E035-451E-A879-DAA7F1A4A873}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42452859-E035-451E-A879-DAA7F1A4A873}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42452859-E035-451E-A879-DAA7F1A4A873}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29390694-5A3F-4B77-94E1-34D8B09ABAFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29390694-5A3F-4B77-94E1-34D8B09ABAFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29390694-5A3F-4B77-94E1-34D8B09ABAFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29390694-5A3F-4B77-94E1-34D8B09ABAFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F62FFF5B-2B91-460A-A4FC-4C8E368299C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F62FFF5B-2B91-460A-A4FC-4C8E368299C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F62FFF5B-2B91-460A-A4FC-4C8E368299C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F62FFF5B-2B91-460A-A4FC-4C8E368299C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ADF5081-B3F9-48DF-B5EF-3342995E7508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ADF5081-B3F9-48DF-B5EF-3342995E7508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ADF5081-B3F9-48DF-B5EF-3342995E7508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ADF5081-B3F9-48DF-B5EF-3342995E7508}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

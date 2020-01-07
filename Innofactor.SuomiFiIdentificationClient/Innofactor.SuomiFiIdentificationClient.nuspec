@@ -22,7 +22,7 @@
     <iconUrl>http://rappen.net/Cinteros/innofactor.png</iconUrl>
 	
 	<dependencies>
-		<dependency id="Kentor.AuthServices" version="0.21.2" />
+		<dependency id="Sustainsys.Saml2.AspNetCore2" version="2.3.0" />
 	</dependencies>	
   </metadata>
 

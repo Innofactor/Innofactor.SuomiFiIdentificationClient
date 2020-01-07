@@ -27,34 +27,12 @@ namespace Innofactor.SuomiFiIdentificationClient.Support {
     /// <param name="bytes">Bytes to be signed.</param>
     /// <returns>Signature, hashed with SHA256 and encrypted with our private RSA key</returns>
     public byte[] SignData(byte[] bytes) {
-
+      
       var cert = LoadCertificate();
-      var sha256 = CryptoConfig.CreateFromName("SHA256");
 
-      var rsa = (RSACryptoServiceProvider)cert.PrivateKey;
-
-      /* 
-       * Cryptographic provider used by the rsa variable may or may not be the provider that supports SHA256
-       * (it needs to be Microsoft Enhanced RSA and AES Cryptographic Provider).
-       * Need to construct a new crypto provider and copy the key to make sure.
-       * Without this the signing may crash with "Invalid algorithm specified".
-       * For this the key needs to be exportable.
-       * http://hintdesk.com/c-how-to-fix-invalid-algorithm-specified-when-signing-with-sha256/ might also work.
-       * 
-       * Adapted from http://stackoverflow.com/a/27637121.
-       */
-      var enhCsp = new RSACryptoServiceProvider().CspKeyContainerInfo;
-      var cspparams = new CspParameters(enhCsp.ProviderType, enhCsp.ProviderName, rsa.CspKeyContainerInfo.KeyContainerName);
-
-      // http://stackoverflow.com/a/1324320
-      cspparams.Flags = CspProviderFlags.UseMachineKeyStore;
-
-      var privKey = new RSACryptoServiceProvider(rsa.KeySize, cspparams);
-      var xmlString = rsa.ToXmlString(true); // Key needs to be exportable, otherwise "Key not valid for use in specified state"
-      privKey.FromXmlString(xmlString);
-
-      var signature = privKey.SignData(bytes, sha256);
-      return signature;
+      using (var rsa = cert.GetRSAPrivateKey()) {
+        return rsa.SignData(bytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+      }
 
     }
 

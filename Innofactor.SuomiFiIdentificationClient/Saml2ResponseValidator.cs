@@ -1,8 +1,8 @@
-﻿using System.IdentityModel.Metadata;
-using Innofactor.SuomiFiIdentificationClient.Saml;
+﻿using Innofactor.SuomiFiIdentificationClient.Saml;
 using Innofactor.SuomiFiIdentificationClient.Support;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Sustainsys.Saml2.Metadata;
 
 namespace Innofactor.SuomiFiIdentificationClient {
 
@@ -11,9 +11,8 @@ namespace Innofactor.SuomiFiIdentificationClient {
     /// Validates SAML response.
     /// </summary>
     /// <param name="samlResponse">SAML response string.</param>
-    /// <param name="validateConditions">Whether to validate timestamp and ID. This should always be true in production, but can be set to false for testing.</param>
     /// <returns>Authentication response. Cannot be null.</returns>
-    Saml2AuthResponse Validate(string samlResponse, bool validateConditions);
+    Saml2AuthResponse Validate(string samlResponse);
   }
 
   public class Saml2ResponseValidator : ISaml2ResponseValidator {
@@ -30,11 +29,11 @@ namespace Innofactor.SuomiFiIdentificationClient {
       this.certificateStore = certificateStore;
     }
 
-    public bool IsValid(string samlResponse, bool validateConditions) {
-      return Validate(samlResponse, validateConditions).Success;
+    public bool IsValid(string samlResponse) {
+      return Validate(samlResponse).Success;
     }
 
-    public Saml2AuthResponse Validate(string samlResponse, bool validateConditions) {
+    public Saml2AuthResponse Validate(string samlResponse) {
 
       var authId = authStateAccessor.Id;
 
@@ -46,7 +45,7 @@ namespace Innofactor.SuomiFiIdentificationClient {
       var idpCertificate = certificateStore.LoadCertificate(config.Saml2IdpCertificate);
       var serviceCertificate = certificateStore.LoadCertificate(config.Saml2Certificate);
       var issuer = new EntityId(config.Saml2IdpEntityId);
-      var saml2Response = Saml2AuthResponse.Create(samlResponse, authId, issuer, idpCertificate, serviceCertificate, validateConditions);
+      var saml2Response = Saml2AuthResponse.Create(samlResponse, authId, issuer, idpCertificate, serviceCertificate);
 
       return saml2Response;
 
