@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml;
@@ -12,15 +11,12 @@ using Sustainsys.Saml2.Configuration;
 using Sustainsys.Saml2.Metadata;
 using Sustainsys.Saml2.Saml2P;
 
-namespace Innofactor.SuomiFiIdentificationClient.Saml
-{
+namespace Innofactor.SuomiFiIdentificationClient.Saml {
 
   [Serializable]
-  public class Saml2AuthResponse
-  {
+  public class Saml2AuthResponse {
 
     private static readonly ILogger<Saml2AuthResponse> log = new LoggerFactory().CreateLogger<Saml2AuthResponse>();
-    private static readonly string RsaSha256Namespace = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
 
     private static string DecodeBase64(string base64) {
       var data = Convert.FromBase64String(base64);
@@ -32,7 +28,8 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml
       Saml2Id responseToId,
       EntityId issuer,
       X509Certificate2 idpCert,
-      X509Certificate2 serviceCertificate) {
+      X509Certificate2 serviceCertificate,
+      EntityId serviceId) {
 
       var decoded = DecodeBase64(samlResponse);
       var xmlDoc = new XmlDocument();
@@ -47,9 +44,8 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml
       }
 
       var spOptions = new SPOptions();
+      spOptions.EntityId = serviceId;
       spOptions.ServiceCertificates.Add(serviceCertificate);
-      if (CryptoConfig.CreateFromName(RsaSha256Namespace) == null)
-        spOptions.OutboundSigningAlgorithm = "SHA256";
       var options = new Options(spOptions);
       var idp = new IdentityProvider(issuer, spOptions);
       idp.SigningKeys.AddConfiguredKey(idpCert);

@@ -45,7 +45,8 @@ namespace Innofactor.SuomiFiIdentificationClient {
       var idpCertificate = certificateStore.LoadCertificate(config.Saml2IdpCertificate);
       var serviceCertificate = certificateStore.LoadCertificate(config.Saml2Certificate);
       var issuer = new EntityId(config.Saml2IdpEntityId);
-      var saml2Response = Saml2AuthResponse.Create(samlResponse, authId, issuer, idpCertificate, serviceCertificate);
+      var localEntityId = new EntityId(config.Saml2EntityId);
+      var saml2Response = Saml2AuthResponse.Create(samlResponse, authId, issuer, idpCertificate, serviceCertificate, localEntityId);
 
       return saml2Response;
 

@@ -10,7 +10,7 @@
 
     public const string NameIdentifier = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
   
-    public const string SessionIndex = "http://kentor.se/AuthServices/SessionIndex";
+    public const string SessionIndex = "http://Sustainsys.se/Saml2/SessionIndex";
 
   }
 
