@@ -18,7 +18,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Support {
         var val = Value;
         return !string.IsNullOrEmpty(val) ? new Saml2Id(val) : new Saml2Id();
       }
-      set => Value = value.ToString();
+      set => Value = value.Value;
     }
 
   }

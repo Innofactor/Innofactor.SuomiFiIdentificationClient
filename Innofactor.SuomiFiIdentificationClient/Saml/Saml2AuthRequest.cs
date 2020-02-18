@@ -36,7 +36,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
         new XAttribute(XNamespace.Xmlns + "samlp", Saml2Namespaces.Saml2P),
         GetRedirectAttribute(assertionConsumerServiceUrl),
         new XAttribute("Destination", destination),
-        new XAttribute("ID", Id),
+        new XAttribute("ID", Id.Value),
         new XAttribute("IssueInstant", issueInstant),
         new XAttribute("Version", "2.0"),
         new XElement(Saml2Namespaces.Saml2 + "Issuer",
