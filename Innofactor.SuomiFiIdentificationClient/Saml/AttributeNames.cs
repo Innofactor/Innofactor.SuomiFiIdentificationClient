@@ -12,6 +12,6 @@
   
     public const string SessionIndex = "http://Sustainsys.se/Saml2/SessionIndex";
 
+    public const string ForeignPersonIdentifier = "urn:oid:1.2.246.517.3002.111.17";
   }
-
 }
