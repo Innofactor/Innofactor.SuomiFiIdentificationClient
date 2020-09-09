@@ -58,7 +58,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
         return new Saml2AuthResponse(false);
 
       var identity = identities.First();
-      var firstName = identity.FindFirstValue(AttributeNames.GivenName);
+      var firstName = identity.FindFirstValue(AttributeNames.GivenName) ?? identity.FindFirstValue(AttributeNames.EidasCurrentGivenName);
       var lastName = identity.FindFirstValue(AttributeNames.Sn);
       var ssn = identity.FindFirstValue(AttributeNames.NationalIdentificationNumber);
       var foreignPersonIdentifier = identity.FindFirstValue(AttributeNames.ForeignPersonIdentifier);
