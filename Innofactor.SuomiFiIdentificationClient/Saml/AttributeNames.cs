@@ -15,5 +15,10 @@
     public const string ForeignPersonIdentifier = "urn:oid:1.2.246.517.3002.111.17";
 
     public const string EidasCurrentGivenName = "http://eidas.europa.eu/attributes/naturalperson/CurrentGivenName";
+    public const string EidasCurrentFamilyName = "http://eidas.europa.eu/attributes/naturalperson/CurrentFamilyName";
+    public const string EidasPersonIdentifier = "http://eidas.europa.eu/attributes/naturalperson/PersonIdentifier";
+    public const string EidasDateOfBirth = "http://eidas.europa.eu/attributes/naturalperson/DateOfBirth";
+
+
   }
 }

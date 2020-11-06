@@ -40,7 +40,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
 
       if (response.Status != Saml2StatusCode.Success) {
         log.LogWarning("SAML authentication error: " + response.Status + " (" + response.StatusMessage + ")");
-        return new Saml2AuthResponse(false) { Status = response.Status };
+        return new Saml2AuthResponse(false) {Status = response.Status};
       }
 
       var spOptions = new SPOptions();
@@ -59,13 +59,19 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
 
       var identity = identities.First();
       var firstName = identity.FindFirstValue(AttributeNames.GivenName) ?? identity.FindFirstValue(AttributeNames.EidasCurrentGivenName);
-      var lastName = identity.FindFirstValue(AttributeNames.Sn);
+      var lastName = identity.FindFirstValue(AttributeNames.Sn) ?? identity.FindFirstValue(AttributeNames.EidasCurrentFamilyName);
       var ssn = identity.FindFirstValue(AttributeNames.NationalIdentificationNumber);
       var foreignPersonIdentifier = identity.FindFirstValue(AttributeNames.ForeignPersonIdentifier);
       var nameId = identity.FindFirstValue(AttributeNames.NameIdentifier);
       var sessionId = identity.FindFirstValue(AttributeNames.SessionIndex);
+      var eidasPersonIdentifier = identity.FindFirstValue(AttributeNames.EidasPersonIdentifier);
+      var eidasDateOfBirth = identity.FindFirstValue(AttributeNames.EidasDateOfBirth);
 
-      return new Saml2AuthResponse(true) { FirstName = firstName, LastName = lastName, SSN = ssn, RelayState = response.RelayState, NameIdentifier = nameId, SessionIndex = sessionId, ForeignPersonIdentifier = foreignPersonIdentifier };
+      return new Saml2AuthResponse(true) {
+        FirstName = firstName, LastName = lastName, SSN = ssn, RelayState = response.RelayState,
+        NameIdentifier = nameId, SessionIndex = sessionId, ForeignPersonIdentifier = foreignPersonIdentifier,
+        EidasPersonIdentifier = eidasPersonIdentifier, EidasDateOfBirth = eidasDateOfBirth
+      };
 
     }
 
@@ -87,6 +93,15 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
     /// Name / Session identifier used for Suomi.Fi logout request
     /// </summary>
     public string NameIdentifier { get; set; }
+
+    /// <summary>
+    /// Eidas dateOfBirth value in
+    /// YYYY-MM-DD -format
+    /// </summary>
+    public string EidasDateOfBirth { get; set; }
+
+    public string EidasPersonIdentifier { get; set; }
+
     /// <summary>
     /// Session identifier for Suomi.Fi logout request
     /// </summary>
@@ -94,7 +109,5 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
     public Saml2StatusCode Status { get; set; }
 
     public bool Success { get; set; }
-
   }
-
 }
