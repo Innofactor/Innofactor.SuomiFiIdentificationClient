@@ -8,6 +8,7 @@ Depends on Sustainsys.Saml2.AspNetCore2.
 The client was created for a specific use case and is provided "as is". Pull requests and suggestions for generalizing the usage are welcome.
 
 * Only HTTP Redirect binding is supported. 
+* Frozen version targeting .NET Standard 2.0 as master goes to .NET Standard 2.1 for AES-GCM support
 
 ## Usage example 
 
