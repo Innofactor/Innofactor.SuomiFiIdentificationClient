@@ -9,6 +9,10 @@
     <PackageProjectUrl>https://github.com/Innofactor/Innofactor.SuomiFiIdentificationClient</PackageProjectUrl>
     <PackageIconUrl>http://rappen.net/Cinteros/innofactor.png</PackageIconUrl>
     <RepositoryUrl>>https://github.com/Innofactor/Innofactor.SuomiFiIdentificationClient</RepositoryUrl>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>signkey.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
