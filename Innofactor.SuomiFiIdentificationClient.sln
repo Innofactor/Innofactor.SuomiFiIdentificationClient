@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D077790A-7DC8-428C-B6AC-53514E15157B}"
 	ProjectSection(SolutionItems) = preProject
-		Innofactor.SuomiFiIdentificationClient\Innofactor.SuomiFiIdentificationClient.nuspec = Innofactor.SuomiFiIdentificationClient\Innofactor.SuomiFiIdentificationClient.nuspec
+		.github\workflows\buildconfig.yml = .github\workflows\buildconfig.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innofactor.SuomiFiIdentificationClient", "Innofactor.SuomiFiIdentificationClient\Innofactor.SuomiFiIdentificationClient.csproj", "{F62FFF5B-2B91-460A-A4FC-4C8E368299C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innofactor.SuomiFiIdentificationClient", "Innofactor.SuomiFiIdentificationClient\Innofactor.SuomiFiIdentificationClient.csproj", "{F62FFF5B-2B91-460A-A4FC-4C8E368299C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innofactor.SuomiFiIdentificationClient.Test", "Innofactor.SuomiFiIdentificationClient.Test\Innofactor.SuomiFiIdentificationClient.Test.csproj", "{1ADF5081-B3F9-48DF-B5EF-3342995E7508}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innofactor.SuomiFiIdentificationClient.Test", "Innofactor.SuomiFiIdentificationClient.Test\Innofactor.SuomiFiIdentificationClient.Test.csproj", "{1ADF5081-B3F9-48DF-B5EF-3342995E7508}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

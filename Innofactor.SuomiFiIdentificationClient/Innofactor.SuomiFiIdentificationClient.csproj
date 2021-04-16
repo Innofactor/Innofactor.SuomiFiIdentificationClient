@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+	<Authors>Innofactor</Authors>
+    <Company>Innofactor</Company>
+    <Description>Suomi.fi authentication client for dealing with all that SAML2 and decryption</Description>
+    <PackageLicenseUrl>https://github.com/Innofactor/Innofactor.SuomiFiIdentificationClient/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Innofactor/Innofactor.SuomiFiIdentificationClient</PackageProjectUrl>
+    <PackageIconUrl>http://rappen.net/Cinteros/innofactor.png</PackageIconUrl>
+    <RepositoryUrl>>https://github.com/Innofactor/Innofactor.SuomiFiIdentificationClient</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
