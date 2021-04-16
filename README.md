@@ -7,6 +7,7 @@ Depends on Sustainsys.Saml2.AspNetCore2.
 **Note:**
 The client was created for a specific use case and is provided "as is". Pull requests and suggestions for generalizing the usage are welcome.
 
+* Targets .NET Standard 2.1, see other release branches for 2.0 support
 * Only HTTP Redirect binding is supported. 
 
 ## Usage example 
@@ -37,6 +38,10 @@ In Startup.cs:
     public void ConfigureServices(IServiceCollection services) {
 
       // ...
+
+      // To enable new AES-GCM algorithm you need to register SymmetricAlgorithm implementation for it via System.Security.Cryptography.CryptoConfig.AddAlgorithm()
+      // Sample implementation is provided (supports only decryption purposes). This can be registered with:
+      CryptoConfig.AddAlgorithm(typeof(AesGcmAlgorithm), AesGcmAlgorithm.AesGcm128Identifier);
 
       services.Configure<SamlConfig>(Configuration.GetSection("Saml"));
 
