@@ -9,6 +9,7 @@ The client was created for a specific use case and is provided "as is". Pull req
 
 * Targets .NET Standard 2.1, see other release branches for 2.0 support
 * Only HTTP Redirect binding is supported. 
+* Supports new AES-GCM encryption algorithm
 
 ## Usage example 
 
@@ -28,8 +29,8 @@ First make sure SamlConfig is configured, for example in appsettings.json (repla
 
 Add your certificate to certificate manager, for example Current user -> Personal -> Certificates. 
 Make sure the private key is exportable. When using the standard certificate store, 
-CERTIFICATE_NAME above must match certificate display name. The certificate store loading can be customized by
-replacing RsaShaCrypto with your own implementation of the ICertificateStore interface.
+CERTIFICATE_NAME above must match certificate friendly name. The certificate store loading can be customized by
+replacing it with your own implementation of the ICertificateStore interface.
 
 In Startup.cs:
 
@@ -39,19 +40,10 @@ In Startup.cs:
 
       // ...
 
-      // To enable new AES-GCM algorithm you need to register SymmetricAlgorithm implementation for it via System.Security.Cryptography.CryptoConfig.AddAlgorithm()
-      // Sample implementation is provided (supports only decryption purposes). This can be registered with:
-      CryptoConfig.AddAlgorithm(typeof(AesGcmAlgorithm), AesGcmAlgorithm.AesGcm128Identifier);
-
       services.Configure<SamlConfig>(Configuration.GetSection("Saml"));
-
-      services.AddScoped<AuthStateAccessor>();
-      services.AddScoped<IEncryptedCookieStorage, EncryptedCookieStorage>();
-      services.AddScoped<ICertificateStore, RsaShaCrypto>();
-      services.AddScoped<ISaml2ResponseValidator, Saml2ResponseValidator>();
-      services.AddScoped<SuomiFiIdentificationClient>();
-      services.AddScoped<IActionContextAccessor, ActionContextAccessor>();
-
+      services.AddOptions();
+      services.AddScoped<ICertificateStore>(x => new CertificateStore(x.GetService<IOptions<SamlConfig>>().Value));
+      services.AddSuomiFiIdentificationClient();
     }
 
 ```
