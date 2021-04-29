@@ -6,6 +6,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Innofactor.SuomiFiIdentificationClient.Test {
 
+  public enum RelayStateAction
+  {
+    Register
+  }
+
   /// <summary>
   /// Tests for <see cref="SuomiFiIdentificationClient"/>.
   /// </summary>
@@ -33,7 +38,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Test {
     [TestMethod]
     public void Authenticate() {
 
-      var result = client.Authenticate("https://localhost:39390", "fi", new RelayState<string>("register", null, "fi"));
+      var result = client.Authenticate("https://localhost:39390", "fi", new RelayState<RelayStateAction>(RelayStateAction.Register, null, "fi"));
 
       Assert.IsNotNull(result, "result");
       Assert.IsTrue(result.StartsWith("https://testi.apro.tunnistus.fi/idp/profile/SAML2/Redirect/SSO?SAMLRequest"), "Start of request URL");
@@ -48,7 +53,7 @@ namespace Innofactor.SuomiFiIdentificationClient.Test {
       samlConfig.Saml2IdpCertificate = "not-found.cer";
 
       var client = new SuomiFiIdentificationClient(samlConfig, new AuthStateAccessor(cookieStorage), new RsaShaCrypto(samlConfig, new CertificateStore(samlConfig)));
-      client.Authenticate("https://localhost:39390", "fi", new RelayState<string>("register", null, "fi"));
+      client.Authenticate("https://localhost:39390", "fi", new RelayState<RelayStateAction>(RelayStateAction.Register, null, "fi"));
 
     }
 
