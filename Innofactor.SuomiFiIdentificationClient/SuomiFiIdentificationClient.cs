@@ -22,7 +22,7 @@ namespace Innofactor.SuomiFiIdentificationClient {
     /// <param name="language">Language code, for example "fi". Optional, defaults to "fi".</param>
     /// <param name="relayState">Relay state. Optional.</param>
     /// <returns>Redirect URL</returns>
-    public string Authenticate(string returnUrl, string language, IRelayState relayState) {
+    public string Authenticate(string returnUrl, string language, IRelayState relayState = null) {
 
       var authRequest = new Saml2AuthRequest();
       var authRequestXml = authRequest.ToXml(config.Saml2EntityId, config.Saml2SSOUrl, returnUrl, language);
@@ -40,13 +40,13 @@ namespace Innofactor.SuomiFiIdentificationClient {
     /// Starts Suomi.fi logout request.
     /// </summary>
     /// <returns>Redirect URL</returns>
-    public string Logout(string sessionId, string sessionIndex) {
+    public string Logout(string sessionId, string sessionIndex, IRelayState relayState = null) {
 
       var logoutRequest = new Saml2LogoutRequest();
       var logoutRequestXml = logoutRequest.ToXml(config.Saml2EntityId, config.Saml2IdpEntityId, config.Saml2SLOUrl, sessionId, sessionIndex);
       authStateAccessor.Id = logoutRequest.Id;
 
-      var binding = new Saml2HttpRedirect(string.Empty, crypto);
+      var binding = new Saml2HttpRedirect(relayState?.ToString(), crypto);
       binding.Run(logoutRequestXml);
 
       var redirectUrl = config.Saml2SLOUrl + "?" + binding.RedirectUrl;

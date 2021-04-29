@@ -7,7 +7,7 @@ namespace Innofactor.SuomiFiIdentificationClient {
     
   }
 
-  public class RelayState<TAction> : IRelayState {
+  public class RelayState<TAction> : IRelayState where TAction : Enum {
 
     public static RelayState<TAction> Parse(string relayState) {
 
@@ -19,7 +19,6 @@ namespace Innofactor.SuomiFiIdentificationClient {
       return new RelayState<TAction>((TAction)Enum.Parse(typeof(TAction), parts[0]), parts.ElementAtOrDefault(1), parts.ElementAtOrDefault(2));
 
     }
-
     public RelayState(TAction action, string entityId, string language) {
       Action = action;
       EntityId = entityId;
