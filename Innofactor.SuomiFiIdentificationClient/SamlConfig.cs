@@ -17,12 +17,25 @@ namespace Innofactor.SuomiFiIdentificationClient {
     public string Saml2SLOUrl { get; set; }
 
     public string Saml2IdpEntityId { get; set; }
+    /// <summary>
+    /// Primary IdpCertificate
+    /// </summary>
     public string Saml2IdpCertificate { get; set; }
+    /// <summary>
+    /// Secondary IdpCertificate
+    /// </summary>
+    public string Saml2SecondaryIdpCertificate { get; set; }
 
     /// <summary>
     /// Service provider SAML certificate (both public and private key, a .pfx file).
+    /// Used when signing an authentication request and validating the response SAML
     /// </summary>
     public string Saml2Certificate { get; set; }
+    /// <summary>
+    /// Service provider SAML certificate (both public and private key, a .pfx file).
+    /// Used when validating the response SAML
+    /// </summary>
+    public string Saml2SecondaryCertificate { get; set; }
 
     public StoreLocation Saml2CertificateStoreLocation { get; set; }
 

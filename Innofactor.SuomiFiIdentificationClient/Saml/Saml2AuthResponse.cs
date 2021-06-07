@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml;
@@ -27,9 +28,13 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
     public static Saml2AuthResponse Create(string samlResponse,
       Saml2Id responseToId,
       EntityId issuer,
-      X509Certificate2 idpCert,
-      X509Certificate2 serviceCertificate,
-      EntityId serviceId) {
+      X509Certificate2 primaryIdpCert,
+      X509Certificate2 primaryServiceCert,
+      EntityId serviceId,
+      X509Certificate2 secondaryIdpCert,
+      X509Certificate2 secondaryServiceCert
+      )
+    {
 
       var decoded = DecodeBase64(samlResponse);
       var xmlDoc = new XmlDocument();
@@ -43,21 +48,23 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
         return new Saml2AuthResponse(false) {Status = response.Status};
       }
 
-      var spOptions = new SPOptions();
-      spOptions.EntityId = serviceId;
-      spOptions.ServiceCertificates.Add(serviceCertificate);
-      var options = new Options(spOptions);
-      var idp = new IdentityProvider(issuer, spOptions);
-      idp.SigningKeys.AddConfiguredKey(idpCert);
-      options.IdentityProviders.Add(idp);
+      var options = CreateOptions(issuer, serviceId, primaryIdpCert, primaryServiceCert, secondaryIdpCert, secondaryServiceCert);
+      return CreateResponse(options, response);
+    }
 
-
+    private static Saml2AuthResponse CreateResponse(Options options, Saml2Response response) {
       var identities = response.GetClaims(options)?.ToArray();
 
       if (identities == null || identities.Length == 0)
         return new Saml2AuthResponse(false);
 
       var identity = identities.First();
+
+      return CreateResponse(identity, response.RelayState);
+
+    }
+
+    private static Saml2AuthResponse CreateResponse(ClaimsIdentity identity, string relayState) {
       var firstName = identity.FindFirstValue(AttributeNames.GivenName) ?? identity.FindFirstValue(AttributeNames.EidasCurrentGivenName);
       var lastName = identity.FindFirstValue(AttributeNames.Sn) ?? identity.FindFirstValue(AttributeNames.EidasCurrentFamilyName);
       var ssn = identity.FindFirstValue(AttributeNames.NationalIdentificationNumber);
@@ -67,12 +74,40 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
       var eidasPersonIdentifier = identity.FindFirstValue(AttributeNames.EidasPersonIdentifier);
       var eidasDateOfBirth = identity.FindFirstValue(AttributeNames.EidasDateOfBirth);
 
-      return new Saml2AuthResponse(true) {
-        FirstName = firstName, LastName = lastName, SSN = ssn, RelayState = response.RelayState,
-        NameIdentifier = nameId, SessionIndex = sessionId, ForeignPersonIdentifier = foreignPersonIdentifier,
-        EidasPersonIdentifier = eidasPersonIdentifier, EidasDateOfBirth = eidasDateOfBirth
+      return new Saml2AuthResponse(true)
+      {
+        FirstName = firstName,
+        LastName = lastName,
+        SSN = ssn,
+        RelayState = relayState,
+        NameIdentifier = nameId,
+        SessionIndex = sessionId,
+        ForeignPersonIdentifier = foreignPersonIdentifier,
+        EidasPersonIdentifier = eidasPersonIdentifier,
+        EidasDateOfBirth = eidasDateOfBirth
       };
+    }
 
+    private static Options CreateOptions(EntityId issuer, EntityId serviceId, X509Certificate2 primaryIdpCert,
+      X509Certificate2 primaryServiceCert, X509Certificate2 secondaryIdpCert,
+      X509Certificate2 secondaryServiceCert) {
+
+      var spOptions = new SPOptions();
+      spOptions.EntityId = serviceId;
+      spOptions.ServiceCertificates.Add(primaryServiceCert);
+      if (secondaryServiceCert != null) {
+        spOptions.ServiceCertificates.Add(secondaryServiceCert);
+      }
+
+      var options = new Options(spOptions);
+      var idp = new IdentityProvider(issuer, spOptions);
+      idp.SigningKeys.AddConfiguredKey(primaryIdpCert);
+      if (secondaryIdpCert != null) {
+        idp.SigningKeys.AddConfiguredKey(secondaryIdpCert);
+      }
+
+      options.IdentityProviders.Add(idp);
+      return options;
     }
 
     public Saml2AuthResponse() { }

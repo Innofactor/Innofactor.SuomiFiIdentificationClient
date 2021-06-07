@@ -10,10 +10,15 @@ The client was created for a specific use case and is provided "as is". Pull req
 * Targets .NET Standard 2.1, see other release branches for 2.0 support
 * Only HTTP Redirect binding is supported. 
 * Supports new AES-GCM encryption algorithm
+* Supports 2 Idp certificates
+* Supports 2 Service certificates
 
 ## Usage example 
 
 First make sure SamlConfig is configured, for example in appsettings.json (replace ENTITYID and CERTIFICATE_NAME as necessary):
+
+You can also add a secondary Idp certificate when You know that the Idp is about to change their signing certificate. 
+The configuration also supports 2 service certificates.
 
 ```json
   "Saml": {
@@ -22,7 +27,9 @@ First make sure SamlConfig is configured, for example in appsettings.json (repla
     "Saml2SLOUrl": "https://testi.apro.tunnistus.fi/idp/profile/SAML2/Redirect/SLO",
     "Saml2IdpEntityId": "https://testi.apro.tunnistus.fi/idp1",
     "Saml2IdpCertificate": "apro-test.cer",
+    "Saml2SecondaryIdpCertificate": "",
     "Saml2Certificate": "CERTIFICATE_NAME",
+    "Saml2SecondaryCertificate": "",
     "Saml2CertificateStoreLocation": "CurrentUser"
   },
 ```
