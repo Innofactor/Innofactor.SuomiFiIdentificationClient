@@ -42,16 +42,17 @@ namespace Innofactor.SuomiFiIdentificationClient {
         return new Saml2AuthResponse(false);
       }
 
-      var idpCertificate = certificateStore.LoadCertificate(config.Saml2IdpCertificate);
-      var serviceCertificate = certificateStore.LoadCertificate(config.Saml2Certificate);
+      var primaryIdpCertificate = certificateStore.LoadCertificate(config.Saml2IdpCertificate);
+      var primaryServiceCertificate = certificateStore.LoadCertificate(config.Saml2Certificate);
+      var secondaryIdpCertificate = !string.IsNullOrWhiteSpace(config.Saml2SecondaryIdpCertificate) ? certificateStore.LoadCertificate(config.Saml2SecondaryIdpCertificate) : null;
+      var secondaryServiceCertificate = !string.IsNullOrWhiteSpace(config.Saml2SecondaryCertificate) ? certificateStore.LoadCertificate(config.Saml2SecondaryCertificate) : null;
+
       var issuer = new EntityId(config.Saml2IdpEntityId);
       var localEntityId = new EntityId(config.Saml2EntityId);
-      var saml2Response = Saml2AuthResponse.Create(samlResponse, authId, issuer, idpCertificate, serviceCertificate, localEntityId);
+      var saml2Response = Saml2AuthResponse.Create(samlResponse, authId, issuer, primaryIdpCertificate, primaryServiceCertificate, localEntityId, secondaryIdpCertificate, secondaryServiceCertificate);
 
       return saml2Response;
 
     }
-
   }
-
 }
