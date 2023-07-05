@@ -47,8 +47,8 @@ namespace Innofactor.SuomiFiIdentificationClient.Saml {
         using (var writer = new StreamWriter(new DeflateStream(compressed, CompressionLevel.Optimal, true))) {
           writer.Write(payload);
         }
-
-        result = System.Net.WebUtility.UrlEncode(Convert.ToBase64String(compressed.GetBuffer()));
+        
+        result = System.Net.WebUtility.UrlEncode(Convert.ToBase64String(compressed.ToArray()));
       }
 
       return result;
